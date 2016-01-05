@@ -39,7 +39,7 @@ bird = {},
 pipes = {};
 
 function main(){
-	canvas = document.CreateElement("canvas");
+	canvas = document.createElement("canvas");
 
 	width = window.innerWidth;
 	height = window.innerHeight;
@@ -56,15 +56,23 @@ function main(){
 
 	document.body.appendChild(canvas);
 
+
 	var img = new Image();
 	img.onload = function(){
-
+		initSprites(this);
+		ctx.fillStyle = s_bg.color;
+		run();
 	}
 	img.src = "res/sheet.png";
 }
 
 function run(){
-
+	var loop = function(){
+		update();
+		render();
+		window.requestAnimationFrame(loop, canvas);
+	}
+	window.requestAnimationFrame(loop, canvas);
 }
 
 function update(){
@@ -72,7 +80,9 @@ function update(){
 }
 
 function render(){
-
+	ctx.fillRect(0, 0, width, height);
+	s_bg.draw(ctx, 0, height - s_bg.height);
+	s_bg.draw(ctx, s_bg.width, height - s_bg.height);
 }
 main();
 </script>
