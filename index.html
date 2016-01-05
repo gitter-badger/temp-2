@@ -55,7 +55,9 @@ bird = {
 		this.velocity = - this._jump;
 	},
 	update: function(){
-
+		var n = currentstate === states.Splash ? 10 : 5;
+		this.frame += frames % n === 0 ? 1 : 0;
+		this.frame %= this.animation.length;
 	},
 	draw: function(ctx){
 		ctx.save();
@@ -92,6 +94,8 @@ function main(){
 	canvas.height = height;
 	ctx = canvas.getContext("2d");
 
+	currentstate = states.Splash;
+
 	document.body.appendChild(canvas);
 
 	var img = new Image();
@@ -115,6 +119,9 @@ function run(){
 function update(){
 	frames++;
 	fgpos = (fgpos - 2) % 14;
+
+	bird.update();
+	pipes.update();
 }
 
 function render(){
