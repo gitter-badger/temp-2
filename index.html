@@ -42,8 +42,8 @@ states = {
 	Splash: 0, Game: 1, Score: 2
 },
 bird = {
-	x: 80,
-	y: 100,
+	x: 60,
+	y: 0,
 	frame: 0,
 	velocity: 0,
 	animation: [0, 1, 2, 1],
@@ -58,6 +58,11 @@ bird = {
 		var n = currentstate === states.Splash ? 10 : 5;
 		this.frame += frames % n === 0 ? 1 : 0;
 		this.frame %= this.animation.length;
+
+		if (currentstate === states.Splash) {
+			this.y = height - 280 + 5 * Math.cos(frames/10);
+			this.rotation = 0;
+		};
 	},
 	draw: function(ctx){
 		ctx.save();
@@ -131,9 +136,16 @@ function render(){
 	s_bg.draw(ctx, s_bg.width, height - s_bg.height);
 
 	bird.draw(ctx);
+	pipes.draw(ctx);
 
 	s_fg.draw(ctx, fgpos, height - s_fg.height);
 	s_fg.draw(ctx, fgpos+s_fg.width, height - s_fg.height);
+
+	var width2 = width/2;
+
+	if (currentstate === states.Splash) {
+		s_splash.draw(ctx, width2 - s_splash.width/2, height - 300);
+	};
 }
 main();
 </script>
